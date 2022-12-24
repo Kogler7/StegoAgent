@@ -20,21 +20,49 @@ dataset_path = 'C:\\Users\\Kolger\\Desktop\\BIGHOMEWORKONE\\Cover-Stego Image Cl
 covers = np.array([cv2.imread(dataset_path + f'\\Cover\\{i+1}.pgm') for i in range(1)])
 stegos = np.array([cv2.imread(dataset_path + f'\\Stego\\{i+1}.pgm') for i in range(1)])
 
-diff = covers - stegos
+kernal = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
 
-print(covers)
-print('--------------===========--------------')
-print(stegos)
-print('--------------===========--------------')
-print(diff)
+cover_cov = cv2.filter2D(covers[0], cv2.CV_8U, kernal)
+cover_arr = np.array(cover_cov).flatten()
+print(cover_arr)
+cover_hist = cv2.calcHist([cover_cov], [0], None, [256], [0, 256]) # 256个bin, 0-256
+
+# print(cover_hist)
+
+
+# print(covers.shape)
+
+# # 获取cover的灰度直方图 256个bin
+# cover_hist = cv2.calcHist([covers[0]], [0], None, [256], [0, 256])
+# stego_hist = cv2.calcHist([stegos[0]], [0], None, [256], [0, 256])
+# 展示输出
+plt.plot(cover_hist)
+# plt.plot(stego_hist)
+plt.legend(['cover', 'stego'])
+plt.show()
+
+# diff = covers - stegos
+
+# print(covers)
+# print('--------------===========--------------')
+# print(stegos)
+# print('--------------===========--------------')
+# print(diff)
 # plt.imshow(diff.squeeze(), cmap='gray')
 # plt.show()
 
-# for i in range(10000):
+# for i in range(100):
 #     cover = cv2.imread(dataset_path + f'\\Cover\\{i+1}.pgm')
 #     stego = cv2.imread(dataset_path + f'\\Stego\\{i+1}.pgm')
-#     diff = cover - stego
-#     plt.imshow(diff.squeeze(), cmap='gray')
-#     plt.savefig(dataset_path + f'\\diffs\\{i+1}.png')
+#     plt.clf()
+#     cover_hist = cv2.calcHist([cover], [0], None, [256], [0, 256])
+#     stego_hist = cv2.calcHist([stego], [0], None, [256], [0, 256])
+#     # 展示输出
+#     plt.plot(cover_hist)
+#     plt.plot(stego_hist)
+#     plt.legend(['cover', 'stego'])
+#     plt.savefig(dataset_path + f'\\hists\\{i+1}.png')
 
 # print(covers)
+
+# %%
